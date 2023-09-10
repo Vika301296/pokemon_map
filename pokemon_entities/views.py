@@ -70,6 +70,8 @@ def show_pokemon(request, pokemon_id):
     else:
         return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
 
+    print("requested_pokemon:", requested_pokemon)
+
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for pokemon_entity in requested_pokemon['entities']:
         add_pokemon(
@@ -84,8 +86,27 @@ def show_pokemon(request, pokemon_id):
             'title_ru': requested_pokemon.title,
             'description': requested_pokemon.desciption,
             'title_jp': requested_pokemon.title_jp,
-            'title_en': requested_pokemon.title_en
+            'title_en': requested_pokemon.title_en,
+            'previous_evolution': requested_pokemon.previous_evolution,
+            'next_evolution': requested_pokemon.next_evolution
         }
+        # Check if there is a previous evolution
+        if requested_pokemon.previous_evolution:
+            pokemon['previous_evolution'] = {
+                'title_ru': requested_pokemon.previous_evolution.title,
+                'pokemon_id': requested_pokemon.previous_evolution.id,
+                'img_url': request.build_absolute_uri(
+                    requested_pokemon.previous_evolution.image.url),
+            }
+
+        # Check if there is a next evolution
+        if requested_pokemon.next_evolution:
+            pokemon['next_evolution'] = {
+                'title_ru': requested_pokemon.next_evolution.title,
+                'pokemon_id': requested_pokemon.next_evolution.id,
+                'img_url': request.build_absolute_uri(
+                    requested_pokemon.next_evolution.image.url),
+            }
 
     return render(request, 'pokemon.html', context={
         'map': folium_map._repr_html_(), 'pokemon': pokemon

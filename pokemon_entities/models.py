@@ -8,7 +8,7 @@ class Pokemon(models.Model):
     image = models.ImageField(
         null=True, blank=True, upload_to='pokemons',
         verbose_name='Изображение')
-    desciption = models.CharField(
+    desciption = models.TextField(
         null=True, blank=True, max_length=1000, verbose_name='Описание')
     title_en = models.CharField(
         null=True, blank=True, max_length=50,

@@ -9,12 +9,15 @@ class Pokemon(models.Model):
         null=True, blank=True, upload_to='pokemons',
         verbose_name='Изображение')
     desciption = models.TextField(
-        null=True, blank=True, max_length=1000, verbose_name='Описание')
+        blank=True, max_length=1000, verbose_name='Описание',
+        default='')
     title_en = models.CharField(
-        null=True, blank=True, max_length=50,
-        verbose_name='Название на английском')
-    title_jp = models.TextField(null=True, blank=True, max_length=50,
-                                verbose_name='Название на японском')
+        blank=True, max_length=50,
+        verbose_name='Название на английском',
+        default='')
+    title_jp = models.TextField(blank=True, max_length=50,
+                                verbose_name='Название на японском',
+                                default='')
     previous_evolution = models.ForeignKey(
         'self', on_delete=models.CASCADE,
         null=True, blank=True, related_name='next_evolution',

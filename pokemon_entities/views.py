@@ -64,14 +64,14 @@ def show_pokemon(request, pokemon_id):
             'img_url': request.build_absolute_uri(
                 requested_pokemon.previous_evolution.image.url),
         }
-        next_evolution = requested_pokemon.next_evolutions.first()
-        if next_evolution is not None:
-            pokemon['next_evolution'] = {
-                'title_ru': next_evolution.title,
-                'pokemon_id': next_evolution.id,
-                'img_url': request.build_absolute_uri(
-                    next_evolution.image.url),
-            }
+    next_evolution = requested_pokemon.next_evolutions.first()
+    if next_evolution is not None:
+        pokemon['next_evolution'] = {
+            'title_ru': next_evolution.title,
+            'pokemon_id': next_evolution.id,
+            'img_url': request.build_absolute_uri(
+                next_evolution.image.url),
+        }
 
     return render(request, 'pokemon.html', context={
         'map': folium_map._repr_html_(), 'pokemon': pokemon

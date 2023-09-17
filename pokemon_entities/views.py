@@ -31,9 +31,9 @@ def show_all_pokemons(request):
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     pokemons_on_page = []
     current_time = timezone.now()
-    pokemons = PokemonEntity.objects.filter(
+    pokemon_entities = PokemonEntity.objects.filter(
         appeared_at__lt=current_time, disappeared_at__gt=current_time)
-    for pokemon in pokemons:
+    for pokemon in pokemon_entities:
         pokemons_on_page.append({
             'pokemon_id': pokemon.id,
             'img_url': request.build_absolute_uri(pokemon.pokemon.image.url),
